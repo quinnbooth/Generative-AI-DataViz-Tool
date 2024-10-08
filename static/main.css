@@ -1,0 +1,224 @@
+body {
+    overflow: hidden;
+}
+
+.nav {
+    background: linear-gradient(145deg, #060606, #4f4f4f);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    line-height: 30px;
+    text-align: center;
+}
+
+.navbar-brand {
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    font-size: 32px;
+    font-style: italic;
+    color: #131313;
+    text-shadow: 0px 2px 2px rgba(255, 255, 255, 0.7), 
+                 0px -2px 2px rgba(255, 255, 255, 0.7),
+                 2px 0px 2px rgba(255, 255, 255, 0.7),
+                 -2px 0px 2px rgba(255, 255, 255, 0.7);
+    transition: transform 0.2s ease, text-shadow 0.2s ease;
+}
+
+.navbar-brand:hover {
+    transform: translateY(-2px);
+    color: #000000;
+}
+
+.navbar-expand-lg {
+    justify-content: space-between;
+}
+
+.title {
+    letter-spacing: 1px;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+}
+
+.nav-link {
+    color: #dcdcdc;
+    margin-left: 20px;
+    font-size: 24px;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #ffffff;
+}
+
+.info-textbox {
+    display: none;
+    margin: 5px;
+    padding: 25px 15% 10px 15%;
+    background-color: #d8d8d8;
+    color: #000000;
+    border-radius: 2px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    height: auto;
+    text-align: left;
+    align-items: center;
+    justify-content: center;
+}
+
+.show {
+    display: block;
+}
+
+.problems-list {
+    margin-top: 1px;
+    background-color: black;
+    height: calc(100vh - 59px);
+    width: 245px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    position: relative;
+    direction: rtl;
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
+}
+
+.problems-list > * {
+    direction: ltr;
+}
+
+.problems-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.problems-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.problems-list::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+.problems-list::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.workspace {
+    background-color: #dcdcdc;
+    flex-grow: 1;
+    height: calc(100vh - 59px);
+}
+
+.generate-button {
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid white;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-bottom: 15px;
+    margin-top: 25px;
+    width: 190px;
+    margin-left: 21px;
+    letter-spacing: 2px;
+}
+
+.generate-button:hover {
+    background-color: #252525;
+}
+
+.generate-button:active {
+    transform: translateY(2px);
+    background-color: #000000;
+}
+
+.refresh-icon {
+    font-size: 16px;
+    transition: transform 0.5s;
+}
+
+.generate-button:hover .refresh-icon {
+    transform: rotate(360deg);
+}
+
+.entry {
+    background-color: #f1f1f1;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    margin-right: 13px;
+    margin-left: 12px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.entry:hover {
+    background-color: #b8b8b8;
+}
+
+.entry:active {
+    background-color: #c8c8c8;
+    transform: scale(0.9);
+}
+
+.entry h4 {
+    margin: 0;
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    height: 35px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+}
+
+.entry-footer {
+    justify-content: left;
+    display: flex;
+    height: 20px;
+}
+
+.upvote-button,
+.downvote-button {
+    background: none; 
+    border: none;
+    cursor: pointer; 
+    font-size: 0.8rem;
+    color: #4CAF50; 
+    transition: transform 0.2s; 
+    height: 20px;
+    background: transparent;
+    width: 20px;
+    translate: -5px 3px;
+}
+
+.upvote-button:hover,
+.downvote-button:hover {
+    transform: scale(1.2);
+}
+
+.upvote-button:active,
+.downvote-button:active {
+    transform: scale(0.8);
+    border: none;
+}
+
+.like-count {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 12px;
+    translate: -4px 5px;
+    width: 20px;
+    text-align: center;
+}

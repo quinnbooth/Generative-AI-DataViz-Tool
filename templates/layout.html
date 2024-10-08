@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+
+    <!-- jquery -->
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>  
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+
+    <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <title>Graphite</title>
+
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-lg nav">
+      <a class="navbar-brand title" href="/">Graphite</a>
+      <div class="nav-icons ml-auto"></div>
+        <a href="#" class="nav-link" id="question-icon">
+          <i class="fas fa-question-circle"></i>
+        </a>
+        <a href="#" class="nav-link">
+          <i class="fas fa-cog"></i>
+        </a>
+      </div>
+    </nav>
+
+    <div id="info-textbox" class="info-textbox">
+      <p>Graphite is a platform for mastering data visualization/analysis. Generate questions with AI and compare your answers to the ideal solutions. Implement the suggested improvements to see how your answer can improve.</p>
+    </div>
+
+    <!-- <div id="spinner-div" class="pt-5">
+      <div class="spinner-border text-primary" role="status">
+      </div>
+    </div> -->
+
+    <div class="container-fluid">   
+        {% block content %}
+        {% endblock %}
+    </div>
+
+  </body>
+
+  <script>
+    document.getElementById('question-icon').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('info-textbox').classList.toggle('show');
+    });
+  </script>
+
+</html>
+
+
+
+

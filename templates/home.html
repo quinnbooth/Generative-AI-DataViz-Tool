@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <script>
+
+        function getProblems() {
+            $.ajax({
+                type: "POST",
+                url: "/get_problems",
+                data: JSON.stringify({}),
+                processData: false,
+                contentType: "application/json",
+                success: function(response) {
+                    listProblems(response);
+                },
+                error: function(request, status, error) {
+                    console.log("Error getting problem list: ", error);
+                }
+            });
+        }
+
+        function updateLikes(entry, inc) {
+            $.ajax({
+                type: "POST",
+                url: "/update_likes",
+                data: JSON.stringify({ id: entry, increment: inc }),
+                processData: false,
+                contentType: "application/json",
+                success: function(response) {
+                    listProblems(response);
+                },
+                error: function(request, status, error) {
+                    console.log("Error updating likes: ", error);
+                }
+            });
+        }
+
+        function listProblems(entries) {
+                
+            entries.sort((a, b) => b.likes - a.likes);
+
+            const entriesContainer = $('#entries-container');
+            entriesContainer.empty();
+
+            entries.forEach(entry => {
+                const entryDiv = $('<div class="entry"></div>');
+                entryDiv.html(`
+                    <h4>${entry.question}</h4>
+                    <div class="entry-footer">
+                        <button class="upvote-button" id="upvote-${entry.id}">
+                            <i class="fas fa-arrow-up"></i>
+                        </button>
+                        <div class="like-count" id="like-count-${entry.id}">${entry.likes}</div>
+                        <button class="downvote-button" id="downvote-${entry.id}">
+                            <i class="fas fa-arrow-down"></i>
+                        </button>
+                    </div>
+                `);
+
+                entriesContainer.append(entryDiv);
+
+                $(`#upvote-${entry.id}`).on('click', () => updateLikes(entry.id, 1));
+                $(`#downvote-${entry.id}`).on('click', () => updateLikes(entry.id, -1));
+
+                
+            });
+
+        }
+
+
+        $(document).ready(function() {
+            
+            getProblems();
+            
+        });
+
+    </script>
+
+    <div class="row">
+        <div class="problems-list">
+            <button class="generate-button">
+                GENERATE
+                <i class="fas fa-sync-alt refresh-icon"></i>
+            </button>
+            <div id="entries-container"></div>
+        </div>
+        <div class="workspace"></div>
+
+        </div>
+    </div>
+
+
+{% endblock %}
+
