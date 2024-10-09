@@ -1,4 +1,4 @@
-function getProblems(select) {
+function getProblems(select, id) {
     $.ajax({
         type: "POST",
         url: "/get_problems",
@@ -7,7 +7,8 @@ function getProblems(select) {
         contentType: "application/json",
         success: function(response) {
             first_id = listProblems(response);
-            if (select) selectProblem(first_id);
+            if (select == 1) selectProblem(first_id);
+            if (select != 1) selectProblem(id);
         },
         error: function(request, status, error) {
             console.log("Error getting problem list: ", error);
@@ -133,39 +134,25 @@ function listProblems(entries) {
 function getNewProblem(keywords) {
     console.log(keywords);
 
-    let prompt = `
-    Create one more entry for a json in the below form.
-    Each should be accompanies by an interesting/difficult question that can be answered about the dataset using dataviz.
-    The dataset should relate to the keywords ${keywords}.
-    Think of diverse questions dataviz could be used to ask.
-    
-    Examples:
-    {
-        "id": 2,
-        "dataset": "Product, Q1 Sales, Q2 Sales, Q3 Sales, Q4 Sales, Yearly Growth, Customer Satisfaction\nElectronics, 150000, 200000, 250000, 300000, 25%, 4.5\nClothing, 50000, 75000, 100000, 125000, 20%, 4.0\nGroceries, 100000, 150000, 200000, 250000, 15%, 4.8\nFurniture, 75000, 100000, 125000, 150000, 10%, 4.1\nToys, 40000, 60000, 90000, 120000, 30%, 4.6\nBooks, 30000, 45000, 70000, 90000, 18%, 4.3",
-        "question": "What are the trends in sales across different product categories, and how do these trends correlate with customer satisfaction?",
-        "likes": 6
-    },
-    {
-        "id": 3,
-        "dataset": "Year, Active Users, New Users, Churn Rate, Revenue, Cost of Acquisition\n2020, 5000, 2000, 5%, 20000, 5000\n2021, 7000, 3000, 4%, 30000, 7000\n2022, 12000, 5000, 6%, 45000, 10000\n2023, 15000, 6000, 3%, 60000, 8000\n2024, 18000, 8000, 2%, 75000, 9000\n2025, 21000, 10000, 1%, 90000, 11000",
-        "question": "How has user growth evolved over the years, and what patterns can be identified in user acquisition costs and churn rates?",
-        "likes": 7
-    },
-    {
-        "id": 4,
-        "dataset": "Date, Temperature, Sales, Customer Traffic, Conversion Rate\n2023-01-01, 30, 1500, 300, 5%\n2023-01-02, 32, 1600, 320, 5.5%\n2023-01-03, 35, 1700, 350, 6%\n2023-01-04, 28, 1400, 280, 4.5%\n2023-01-05, 25, 1300, 250, 4%\n2023-01-06, 40, 2000, 400, 7%\n2023-01-07, 38, 1900, 390, 6.5%\n2023-01-08, 29, 1550, 310, 5.2%",
-        "question": "What patterns emerge between temperature changes and customer traffic throughout the week, and how do they affect sales?",
-        "likes": 4
-    }
-        `
-
+    $.ajax({
+        type: "POST",
+        url: "/generate_problem",
+        data: JSON.stringify({ keywords: keywords }),
+        processData: false,
+        contentType: "application/json",
+        success: function(response) {
+            getProblems(0, response.entryno);
+        },
+        error: function(request, status, error) {
+            console.log("Error generating problem: ", error);
+        }
+    });
 
 }
 
 $(document).ready(function() {
     
-    getProblems(1);
+    getProblems(1, 0);
 
     $('.generate-button').on('click', function() {
         $('#generateModal').modal('show');
