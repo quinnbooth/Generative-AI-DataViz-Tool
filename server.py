@@ -32,7 +32,7 @@ def update_likes():
         entries = json.load(f)
 
     for entry in entries:
-        if entry['id'] == id:
+        if entry['id'] == id and entry['likes'] + increment >= 0:
             entry['likes'] += increment
             break
 
@@ -40,6 +40,22 @@ def update_likes():
         json.dump(entries, f)
 
     return jsonify(entries)
+
+@app.route('/get_problem', methods=['GET', 'POST'])
+def get_problem():
+    data = request.get_json()
+    id = data['id']
+    problem = None
+
+    with open('static/data/questions.json') as f:
+        entries = json.load(f)
+
+    for entry in entries:
+        if entry['id'] == id:
+            problem = entry
+            break
+
+    return jsonify(problem)
 
 # OLD \/\/\/
 
