@@ -58,6 +58,7 @@ function displayProblem(problem) {
     $('#csv-container').append(`
         ${csvTable}
     `);
+    $('#question-div').text(problem.question);
 }
 
 function csvToTable(csv) {
