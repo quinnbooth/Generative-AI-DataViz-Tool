@@ -156,27 +156,53 @@ function submitAnswer() {
     let answer = $('#code-editor').val();
     let id = $('#question-div').data("id");
 
-    // $.ajax({
-    //     type: "POST",
-    //     url: "/submit_answer",
-    //     data: JSON.stringify({ id: id, answer: answer }),
-    //     processData: false,
-    //     contentType: "application/json",
-    //     beforeSend: function () { 
-    //         $("#spinner-div").show()
-    //     },
-    //     success: function(response) {
-    //         feedbackPage(response, answer, id);
-    //     },
-    //     error: function(request, status, error) {
-    //         console.log("Error submitting problem: ", error);
-    //     },
-    //     complete: function () { 
-    //         $("#spinner-div").hide();
-    //     }
-    // });
+    $.ajax({
+        type: "POST",
+        url: "/submit_answer",
+        data: JSON.stringify({ id: id, answer: answer }),
+        processData: false,
+        contentType: "application/json",
+        beforeSend: function () { 
+            $("#spinner-div").show()
+        },
+        success: function(response) {
+            feedbackPage(response, answer, id);
+        },
+        error: function(request, status, error) {
+            console.log("Error submitting problem: ", error);
+        },
+        complete: function () { 
+            $("#spinner-div").hide();
+        }
+    });
 
-    feedbackPage({"msg": "hi", "clarity": "csdfadfsafdsldfjk", "accuracy": "asdjflaskdjf", "insightfulness": "ajsld;jfalskdjf;lasjdlf"});
+    // For testing:
+    // feedbackPage({"msg": "hi", "clarity": "csdfadfsafdsldfjk", "accuracy": "asdjflaskdjf", "insightfulness": "ajsld;jfalskdjf;lasjdlf"});
+}
+
+function idealViz() {
+    let answer = $('#code-editor').val();
+    let id = $('#question-div').data("id");
+
+    $.ajax({
+        type: "POST",
+        url: "/get_ideal_viz",
+        data: JSON.stringify({ id: id, answer: answer }),
+        processData: false,
+        contentType: "application/json",
+        beforeSend: function () { 
+            $("#spinner-div").show()
+        },
+        success: function(response) {
+            $('#feedbackContent').append(response.msg);
+        },
+        error: function(request, status, error) {
+            console.log("Error getting ideal answer: ", error);
+        },
+        complete: function () { 
+            $("#spinner-div").hide();
+        }
+    });
 }
 
 function feedbackPage(feedback, answer, id) {
@@ -225,6 +251,10 @@ $(document).ready(function() {
 
     $('#feedbackModal').draggable({
         handle: '#draggableBar'
+    });
+
+    $('#seeIdealBtn').on('click', function () {
+        idealViz();
     });
     
 });

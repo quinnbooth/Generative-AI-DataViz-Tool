@@ -16,6 +16,8 @@ import json
 from base64 import b64decode
 from pathlib import Path
 
+gpt_feedback = {}
+
 new_question_prompt1 = '''Create one more entry for a json in the below form. Don't have more than one of any field, e.g. not 2 ids.
     Each should be accompanies by an interesting/difficult question that can be answered about the dataset using dataviz.
     The dataset should have at least 8 entries and relate to the keywords.'''
@@ -59,8 +61,41 @@ submit_prompt4 = '''\nYou must rate their solution in three categories:
                     3) Insightfulness: #/5
                     Suggestion for insightfulness if applicable.'''
 
+ideal_prompt1 = "An interviewee was asked to answer the following data visualization question:\n"
+ideal_prompt2 = "\nThey were referencing the following dataset:\n"
+ideal_prompt3 = "\nAnd they received this feedback:\n"
+ideal_prompt4 = "\nThey may or may not have implemented this feedback since their last answer, but their current code is:\n"
+ideal_prompt5 = "\nImplement the feedback on their code if it is still applicable. Assume the data is in data.csv. Return only the code."
+
+@app.route('/get_ideal_viz', methods=['GET', 'POST'])
+def get_ideal_viz():
+    global gpt_feedback
+    data = request.get_json()
+    id = data['id']
+    answer = data['answer']
+
+    prompt = ideal_prompt1 + gpt_feedback[id]['question'] + ideal_prompt2 + gpt_feedback[id]['dataset'] + ideal_prompt3 + gpt_feedback[id]['feedback'] + ideal_prompt4 + answer + ideal_prompt5
+    print(prompt, "\n\n")
+
+    response = openai.chat.completions.create(
+        model = 'gpt-4o',
+        messages = [
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+    )
+
+    msg = response.choices[0].message.content
+    print(msg)
+
+    return jsonify({"msg": msg})
+        
+
 @app.route('/submit_answer', methods=['GET', 'POST'])
 def submit_answer():
+    global gpt_feedback
     data = request.get_json()
     id = data['id']
     answer = data['answer']
@@ -94,6 +129,13 @@ def submit_answer():
     clarity = re.search(r'Clarity:.*?(?=\n2\))', msg, re.DOTALL).group(0).replace('1) Clarity:', '').strip()
     accuracy = re.search(r'Accuracy:.*?(?=\n3\))', msg, re.DOTALL).group(0).replace('2) Accuracy:', '').strip()
     insightfulness = re.search(r'Insightfulness:.*', msg, re.DOTALL).group(0).replace('3) Insightfulness:', '').strip()
+
+    gpt_feedback[id] = {
+        'question': question,
+        'dataset': dataset,
+        'feedback': msg,
+        'previous_answer': answer
+    }
 
     return jsonify({'msg': msg, 'clarity': clarity, 'accuracy': accuracy, 'insightfulness': insightfulness})
 
