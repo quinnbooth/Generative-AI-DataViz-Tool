@@ -241,13 +241,12 @@ body {
 
 #csv-container {
     margin-top: 10px;
-    /* background-color: red; */
     margin-left: 8px;
     padding: 0px 20px;
     height: 45vh;
     overflow-x: auto;
     overflow-y: scroll;
-    z-index: 1000;
+    z-index: 100;
 }
 
 .csv-table {
@@ -289,18 +288,6 @@ body {
     margin-bottom: 25px;
 }
 
-.question-label {
-    margin-left: 0%;
-}
-
-#question-div {
-    width: 92%;
-    text-align: left;
-    margin-left: 0%;
-    height: 75px;
-}
-
-
 .code-col {
     display: flex;
     flex-direction: column;
@@ -308,13 +295,12 @@ body {
 }
 
 .code-editor {
-
     margin-left: 5%;
     width: 95%;
     height: auto;
     flex-grow: 1; 
     background-color: #1e1e1e;
-    color: #dcdcdc;
+    color: #788878;
     font-family: 'Courier New', Courier, monospace;
     font-size: 14px;
     padding: 15px;
@@ -327,4 +313,152 @@ body {
 
 .code-editor:focus {
     border-color: #4CAF50;
+}
+
+.question-label {
+    margin-left: 0%;
+}
+
+#question-div {
+    width: 92%;
+    text-align: left;
+    margin-left: 0%;
+}
+
+#instructions-div {
+    margin-top: 10px;
+    width: 92%;
+    text-align: left;
+    margin-left: 0%;
+    /* height: 75px; */
+    font-size: 13px;
+}
+
+.submit-button {
+    margin-top: 20px;
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    border: 1px rgb(234, 234, 234) solid; /* Remove default border */
+    padding: 12px 20px; /* Spacing */
+    font-size: 16px; /* Font size */
+    font-family: 'Courier New', Courier, monospace; /* Monospace font */
+    cursor: pointer; /* Pointer on hover */
+    border-radius: 5px; /* Rounded corners */
+    display: flex; /* Flexbox layout */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    transition: background-color 0.3s, transform 0.2s; /* Animation */
+}
+
+.submit-button i {
+    margin-right: 8px; /* Space between icon and text */
+}
+
+.submit-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.submit-button:active {
+    transform: translateY(2px); /* Slight movement on click */
+    background-color: #3e8e41; /* Even darker green when pressed */
+}
+
+.modal-exec {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 2px solid #888;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+.modal-exec-content {
+    text-align: center;
+}
+
+#closeModal {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#closeModal:hover {
+    background-color: #45a049;
+}
+
+#spinner-div {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 2000;
+}
+
+#closeFeedbackModal {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#closeFeedbackModal:hover {
+    background-color: #45a049;
+}
+
+#seeIdealBtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#seeIdealBtn:hover {
+    background-color: #45a049;
+}
+
+#feedbackModal {
+    position: absolute;
+    display: none;
+    z-index: 3000;
+    left: 0%;
+    top: 0%;
+    /* width: 50vw;
+    height: 50vh; */
+    background-color: white;
+    border: 2px solid #888;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 0;
+}
+
+#modal-feedback-content {
+    text-align: center;
+    padding: 20px; 
+}
+
+#draggableBar {
+    height: 20px;
+    width: 100%;
+    background-color: rgb(34, 34, 34);
+    cursor: move;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }

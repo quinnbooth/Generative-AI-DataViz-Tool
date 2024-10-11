@@ -11,14 +11,14 @@ import io
 import requests
 import openai_secrets
 client = OpenAI(api_key=openai_secrets.SECRET_KEY)
+openai.api_key = openai_secrets.SECRET_KEY
 import json
 from base64 import b64decode
 from pathlib import Path
 
-new_question_prompt1 = '''
-    Create one more entry for a json in the below form. Don't have more than one of any field, e.g. not 2 ids.
+new_question_prompt1 = '''Create one more entry for a json in the below form. Don't have more than one of any field, e.g. not 2 ids.
     Each should be accompanies by an interesting/difficult question that can be answered about the dataset using dataviz.
-    The dataset should have at least 8 entries and relate to the keywords $'''
+    The dataset should have at least 8 entries and relate to the keywords.'''
 
 new_question_prompt2 = '''.
     Think of diverse questions dataviz could be used to ask.
@@ -42,6 +42,62 @@ new_question_prompt2 = '''.
         "question": "What patterns emerge between temperature changes and customer traffic throughout the week, and how do they affect sales?",
         "likes": 4
     }'''
+
+submit_prompt1 = "An interview candidate was asked the following question:\n"
+submit_prompt2 = "\nThey were analyzing this dataset:\n"
+submit_prompt3 = "\nAnd this was their answer in Python:\n"
+submit_prompt4 = '''\nYou must rate their solution in three categories:
+                    1) Clarity: Does the visualization effectively communicate the data's message? Is it easy to understand, with appropriate labels, axes, and legends? Does the visualization look visually appealing? Are the color choices, spacing, and overall layout well-designed without sacrificing clarity?
+                    2) Accuracy: Is the data represented accurately? Does the visualization avoid misleading elements, such as distorted scales or selective data omission?
+                    3) Insightfulness: Does the visualization answer the proposed problem? Is the chosen type of visualization (bar chart, line graph, scatter plot, etc.) appropriate for the data and the message it intends to convey?
+                    For each, provide a rating 1-5 and a tangible thing in their code they could modify to improve their scoring in this category (if applicable).
+                    Assume the data was found in data.csv and format the response like:
+                    1) Clarity: #/5
+                    Suggestion for clarity if applicable.
+                    2) Accuracy #/5
+                    Suggestion for accuracy if applicable.
+                    3) Insightfulness: #/5
+                    Suggestion for insightfulness if applicable.'''
+
+@app.route('/submit_answer', methods=['GET', 'POST'])
+def submit_answer():
+    data = request.get_json()
+    id = data['id']
+    answer = data['answer']
+    question = ""
+    dataset = ""
+
+    with open('static/data/questions.json') as f:
+        entries = json.load(f)
+    for entry in entries:
+        if entry['id'] == int(id):
+            question = entry['question']
+            dataset = entry['dataset']
+
+    prompt = submit_prompt1 + question + submit_prompt2 + dataset + submit_prompt3 + answer + submit_prompt4
+    print(prompt, "\n\n")
+
+    response = openai.chat.completions.create(
+        model = 'gpt-4o',
+        messages = [
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+    )
+
+    msg = response.choices[0].message.content
+    print(msg)
+
+    # Use regex to extract each section without numbers and labels
+    clarity = re.search(r'Clarity:.*?(?=\n2\))', msg, re.DOTALL).group(0).replace('1) Clarity:', '').strip()
+    accuracy = re.search(r'Accuracy:.*?(?=\n3\))', msg, re.DOTALL).group(0).replace('2) Accuracy:', '').strip()
+    insightfulness = re.search(r'Insightfulness:.*', msg, re.DOTALL).group(0).replace('3) Insightfulness:', '').strip()
+
+    return jsonify({'msg': msg, 'clarity': clarity, 'accuracy': accuracy, 'insightfulness': insightfulness})
+
+
 
 
 @app.route('/get_problems', methods=['GET', 'POST'])

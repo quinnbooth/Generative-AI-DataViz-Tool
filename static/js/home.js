@@ -59,6 +59,7 @@ function displayProblem(problem) {
         ${csvTable}
     `);
     $('#question-div').text(problem.question);
+    $('#question-div').data("id", problem.id);
 }
 
 function csvToTable(csv) {
@@ -151,8 +152,46 @@ function getNewProblem(keywords) {
 
 }
 
+function submitAnswer() {
+    let answer = $('#code-editor').val();
+    let id = $('#question-div').data("id");
+
+    // $.ajax({
+    //     type: "POST",
+    //     url: "/submit_answer",
+    //     data: JSON.stringify({ id: id, answer: answer }),
+    //     processData: false,
+    //     contentType: "application/json",
+    //     beforeSend: function () { 
+    //         $("#spinner-div").show()
+    //     },
+    //     success: function(response) {
+    //         feedbackPage(response, answer, id);
+    //     },
+    //     error: function(request, status, error) {
+    //         console.log("Error submitting problem: ", error);
+    //     },
+    //     complete: function () { 
+    //         $("#spinner-div").hide();
+    //     }
+    // });
+
+    feedbackPage({"msg": "hi", "clarity": "csdfadfsafdsldfjk", "accuracy": "asdjflaskdjf", "insightfulness": "ajsld;jfalskdjf;lasjdlf"});
+}
+
+function feedbackPage(feedback, answer, id) {
+    console.log(feedback.msg);
+    $('#feedback').empty();
+    $('#feedbackModal').show();
+    $('#feedback').append(`<h5 style="color: #4CAF50; font-weight: bold;">Clarity:</h5><p>${feedback.clarity}</p>`);
+    $('#feedback').append(`<h5 style="color: #4CAF50; font-weight: bold;">Accuracy:</h5><p>${feedback.accuracy}</p>`);
+    $('#feedback').append(`<h5 style="color: #4CAF50; font-weight: bold;">Insightfulness:</h5><p>${feedback.insightfulness}</p>`);
+    
+}
+
 $(document).ready(function() {
     
+    $("#spinner-div").hide();
     getProblems(1, 0);
 
     $('.generate-button').on('click', function() {
@@ -163,6 +202,29 @@ $(document).ready(function() {
         const keywords = $('#dataField').val();
         $('#generateModal').modal('hide');
         getNewProblem(keywords);
+    });
+
+    $('.code-editor').on('keydown', function (event) {
+        if (event.ctrlKey && event.key === 'Enter') {
+            // Show the modal popup when CTRL + ENTER is pressed
+            $('#popupModal').show();
+        }
+    });
+
+    $('#submit-btn').on('click', function() {
+        submitAnswer();
+    });
+
+    $('#closeModal').on('click', function () {
+        $('#popupModal').hide();
+    });
+
+    $('#closeFeedbackModal').on('click', function () {
+        $('#feedbackModal').hide();
+    });
+
+    $('#feedbackModal').draggable({
+        handle: '#draggableBar'
     });
     
 });
