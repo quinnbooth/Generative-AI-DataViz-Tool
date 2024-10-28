@@ -378,10 +378,13 @@ body {
 }
 
 .modal-exec-content {
-    text-align: center;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
 }
 
 #closeModal {
+    margin-top: 20px;
     background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
@@ -461,4 +464,19 @@ body {
     cursor: move;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+}
+
+#execText {
+    text-align: left;
+    width: 400px;
+    height: 100px;
+    margin-top: 10px;
+    border: 1px solid gray;
+    overflow: auto;
+    padding: 5px;
+}
+
+#imageContainer {
+    width: 400px;
+    height: 300px;
 }

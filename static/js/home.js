@@ -215,6 +215,49 @@ function feedbackPage(feedback, answer, id) {
     
 }
 
+function executeCode() {
+    let id = $('#question-div').data("id");
+    let code = $('#code-editor').val();
+    code = code.replace(/\S*dataset\.csv\S*/g, "dataset");
+    $.ajax({
+        type: "POST",
+        url: "/execute_code",
+        data: JSON.stringify({ id: id, code: code }),
+        processData: false,
+        contentType: "application/json",
+        success: function(response) {
+            $('#popupModal').show();
+            $('#execText').empty();
+
+            console.log(response);
+
+            $('#imageContainer').attr('src', "");
+            $('#imageContainer').attr('alt', "Plot did not load correctly.");
+            if (response.image) {
+                let imageUrl = `data:image/png;base64,${response.image}`;
+                $('#imageContainer').attr('src', imageUrl);
+                $('#imageContainer').attr('alt', "Your plot.");
+            }
+
+            let printedOutput = response.output || "";  
+            if (printedOutput) {
+                $('#execText').prepend(`<pre>${printedOutput.replace(/\n/g, "<br>")}</pre>`);
+            }
+        },
+        error: function(request, status, error) {
+            console.log("Error executing code: ", error);
+            $('#popupModal').show();
+            $('#imageContainer').attr('src', "");
+            $('#imageContainer').attr('alt', "Plot did not load correctly.");
+            $('#execText').empty();
+            let errorMessage = request.responseJSON.error || "An error occurred.";
+            let traceback = request.responseJSON.traceback || "";
+            let formattedError = `<pre>${errorMessage}\n${traceback.replace(/\n/g, "<br>")}</pre>`;
+            $('#execText').html(formattedError);
+        }
+    });
+}
+
 $(document).ready(function() {
     
     $("#spinner-div").hide();
@@ -233,7 +276,7 @@ $(document).ready(function() {
     $('.code-editor').on('keydown', function (event) {
         if (event.ctrlKey && event.key === 'Enter') {
             // Show the modal popup when CTRL + ENTER is pressed
-            $('#popupModal').show();
+            executeCode();
         }
     });
 

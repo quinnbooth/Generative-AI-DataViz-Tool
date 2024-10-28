@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import render_template
-from flask import Response, request, jsonify
+from flask import Response, request, jsonify, send_file
 app = Flask(__name__)
 import os
 from openai import OpenAI
@@ -15,6 +15,14 @@ openai.api_key = openai_secrets.SECRET_KEY
 import json
 from base64 import b64decode
 from pathlib import Path
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import traceback
+from io import StringIO
+import matplotlib
+matplotlib.use('Agg')
+import sys
 
 gpt_feedback = {}
 
@@ -66,6 +74,56 @@ ideal_prompt2 = "\nThey were referencing the following dataset:\n"
 ideal_prompt3 = "\nAnd they received this feedback:\n"
 ideal_prompt4 = "\nThey may or may not have implemented this feedback since their last answer, but their current code is:\n"
 ideal_prompt5 = "\nImplement the feedback on their code if it is still applicable. Assume the data is in data.csv. Return only the code."
+
+@app.route('/execute_code', methods=['POST'])
+def execute_code():
+    code = request.json.get("code")
+    id = request.json.get("id")
+    dataset = None
+
+    print("Executing...\n\n", code)
+
+    with open('static/data/questions.json') as f:
+        entries = json.load(f)
+        
+    for entry in entries:
+        if entry['id'] == id:
+            dataset = entry['dataset']
+
+    if not code:
+        print('Error: no code')
+        return {"error": "No code provided"}, 400
+    
+    if not dataset:
+        print('Error: no dataset')
+        return {"error": "No dataset"}, 400
+
+    output_buffer = io.StringIO()
+    try:
+        old_stdout = sys.stdout
+        sys.stdout = output_buffer
+        dataset = pd.read_csv(StringIO(dataset))
+        dataset.columns = dataset.columns.str.strip()
+        df = dataset.map(lambda x: x.strip() if isinstance(x, str) else x)
+        exec(code, {"dataset": df})
+        buf = io.BytesIO()
+        plt.savefig(buf, format="png")
+        buf.seek(0)
+        plt.close()
+        # Encode image to base64
+        image_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+        
+        return jsonify({
+            'image': image_base64,
+            'output': output_buffer.getvalue()
+        })
+    except Exception as e:
+        print('Error: code didn\'t execute')
+        traceback.print_exc() 
+        tb = traceback.format_exc()
+        return {"error": str(e), "output": output_buffer.getvalue(), "traceback": tb}, 500
+    finally:
+        sys.stdout = old_stdout
 
 @app.route('/get_ideal_viz', methods=['GET', 'POST'])
 def get_ideal_viz():
