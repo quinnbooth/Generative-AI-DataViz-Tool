@@ -4,6 +4,9 @@
 
     <script src="/static/js/feedback.js" defer></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/raphael@2.3.0/raphael.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/justgage@1.4.0/justgage.min.js"></script>
+
     <script>
         var session_data = {{ session_data|tojson }};
     </script>
@@ -29,42 +32,35 @@
 
         <div class="col-5 feedback-container">
             <div class="row score-content">
-
+                <div class="col-4 score-col">
+                    <div class="gauge-wrapper" id="clarity-col">
+                        <div class="gauge" id="gauge-clarity"></div>
+                    </div>
+                </div>
+                <div class="col-4 score-col"> 
+                    <div class="gauge-wrapper" id="accuracy-col">
+                        <div class="gauge" id="gauge-accuracy"></div>
+                    </div>
+                </div>
+                <div class="col-4 score-col">
+                    <div class="gauge-wrapper" id="depth-col">
+                        <div class="gauge" id="gauge-depth"></div>
+                    </div>
+                </div>
             </div>
-            <div class="row feedback-content">
-
+            <div class="row feedback-content" id="feedback-content">
+                Hover over one of your scores too see feedback on how you could improve it!
             </div>
             <div class="row buttons-content">
-
+                <div class="col-6 but-col">
+                    <button id="resubmit-btn">RE-SUBMIT</button>
+                </div>
+                <div class="col-6 but-col">
+                    <button id="complete-btn">COMPLETE</button>
+                </div>
             </div>
         </div>
-
     </div>  
-
-    <!-- {% if session_data %}
-            <h2>Question:</h2>
-            <p>{{ session_data.question }}</p>
-
-            <h2>Your Answer:</h2>
-            <p>{{ session_data.code }}</p>
-
-            <h2>Feedback Message:</h2>
-            <p>{{ session_data.msg }}</p>
-
-            <h2>Clarity:</h2>
-            <p>{{ session_data.clarity }}</p>
-
-            <h2>Accuracy:</h2>
-            <p>{{ session_data.accuracy }}</p>
-
-            <h2>Insightfulness:</h2>
-            <p>{{ session_data.insightfulness }}</p>
-            
-            <h2>Dataset:</h2>
-            <p>{{ session_data.dataset }}</p>
-    {% else %}
-            <p>No feedback available.</p>
-    {% endif %} -->
 
 {% endblock %}
 
