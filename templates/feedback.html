@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <script src="/static/js/feedback.js" defer></script>
+
+    <script>
+        var session_data = {{ session_data|tojson }};
+    </script>
+
+    <div class="row">
+    
+        <div class="col-4 feedback-container">
+            <div class="row dataset-content" id="dataset-content">
+
+            </div>
+            <div class="row question-content">
+                {{ session_data.question }}
+            </div>
+        </div>
+
+        <div class="col-3 feedback-container">
+            <div class="row code-content">
+                <textarea class="code-editor" id="code-editor" placeholder="Code your Python solution here..." spellcheck="false" style="margin-left: 0px">
+                    {{ session_data.code }}
+                </textarea>
+            </div>
+        </div>
+
+        <div class="col-5 feedback-container">
+            <div class="row score-content">
+
+            </div>
+            <div class="row feedback-content">
+
+            </div>
+            <div class="row buttons-content">
+
+            </div>
+        </div>
+
+    </div>  
+
+    <!-- {% if session_data %}
+            <h2>Question:</h2>
+            <p>{{ session_data.question }}</p>
+
+            <h2>Your Answer:</h2>
+            <p>{{ session_data.code }}</p>
+
+            <h2>Feedback Message:</h2>
+            <p>{{ session_data.msg }}</p>
+
+            <h2>Clarity:</h2>
+            <p>{{ session_data.clarity }}</p>
+
+            <h2>Accuracy:</h2>
+            <p>{{ session_data.accuracy }}</p>
+
+            <h2>Insightfulness:</h2>
+            <p>{{ session_data.insightfulness }}</p>
+            
+            <h2>Dataset:</h2>
+            <p>{{ session_data.dataset }}</p>
+    {% else %}
+            <p>No feedback available.</p>
+    {% endif %} -->
+
+{% endblock %}
+

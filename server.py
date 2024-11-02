@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template
+from flask import render_template, redirect, url_for, session
 from flask import Response, request, jsonify, send_file
 app = Flask(__name__)
 import os
@@ -25,6 +25,7 @@ matplotlib.use('Agg')
 import sys
 
 gpt_feedback = {}
+session_data = {}
 
 new_question_prompt1 = '''Create one more entry for a json in the below form. Don't have more than one of any field, e.g. not 2 ids.
     Each should be accompanies by an interesting/difficult question that can be answered about the dataset using dataviz.
@@ -77,11 +78,12 @@ ideal_prompt5 = "\nImplement the feedback on their code if it is still applicabl
 
 @app.route('/execute_code', methods=['POST'])
 def execute_code():
-    code = request.json.get("code")
-    id = request.json.get("id")
+    data = request.get_json()
+    code = data["code"]
+    id = data["id"]
     dataset = None
 
-    print("Executing...\n\n", code)
+    print(f"Executing for question ID {id}...\n\n", code)
 
     with open('static/data/questions.json') as f:
         entries = json.load(f)
@@ -104,8 +106,8 @@ def execute_code():
         sys.stdout = output_buffer
         dataset = pd.read_csv(StringIO(dataset))
         dataset.columns = dataset.columns.str.strip()
-        df = dataset.map(lambda x: x.strip() if isinstance(x, str) else x)
-        exec(code, {"dataset": df})
+        dff = dataset.map(lambda x: x.strip() if isinstance(x, str) else x)
+        exec(code, {"dataset": dff})
         buf = io.BytesIO()
         plt.savefig(buf, format="png")
         buf.seek(0)
@@ -153,6 +155,7 @@ def get_ideal_viz():
 
 @app.route('/submit_answer', methods=['GET', 'POST'])
 def submit_answer():
+    global session_data
     global gpt_feedback
     data = request.get_json()
     id = data['id']
@@ -195,9 +198,23 @@ def submit_answer():
         'previous_answer': answer
     }
 
-    return jsonify({'msg': msg, 'clarity': clarity, 'accuracy': accuracy, 'insightfulness': insightfulness})
+    session_data = {
+        'msg': msg,
+        'clarity': clarity,
+        'accuracy': accuracy,
+        'insightfulness': insightfulness,
+        'question': question,
+        'dataset': dataset,
+        'code': answer
+    }
 
+    return jsonify(session_data)
 
+    # return jsonify({'msg': msg, 'clarity': clarity, 'accuracy': accuracy, 'insightfulness': insightfulness, 'question': question, 'dataset': dataset, 'code': answer})
+
+@app.route('/feedback')
+def feedback():
+    return render_template('feedback.html', session_data=session_data)
 
 
 @app.route('/get_problems', methods=['GET', 'POST'])

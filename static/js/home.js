@@ -166,7 +166,8 @@ function submitAnswer() {
             $("#spinner-div").show()
         },
         success: function(response) {
-            feedbackPage(response, answer, id);
+            // feedbackPage(response, answer, id);
+            window.location.href = `/feedback`;
         },
         error: function(request, status, error) {
             console.log("Error submitting problem: ", error);
@@ -218,7 +219,7 @@ function feedbackPage(feedback, answer, id) {
 function executeCode() {
     let id = $('#question-div').data("id");
     let code = $('#code-editor').val();
-    code = code.replace(/\S*dataset\.csv\S*/g, "dataset");
+    code = code.replace(/\S*data\.csv\S*/g, "dataset");
     $.ajax({
         type: "POST",
         url: "/execute_code",
