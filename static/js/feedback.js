@@ -71,6 +71,64 @@ function resubmit() {
     });
 }
 
+function adjustFeedbackHeight() {
+
+    createGauge("gauge-clarity", "Clarity", session_data.clarity_score);
+    createGauge("gauge-accuracy", "Accuracy", session_data.accuracy_score);
+    createGauge("gauge-depth", "Depth", session_data.depth_score);
+
+    let butColHeight = $('#score-content').outerHeight(true);
+    $('.feedback-content').css('height', `calc(100vh - ${70 + 100 + butColHeight}px)`);
+    
+}
+
+function cleanInput(input) {
+
+    if (input.startsWith('"') && input.endsWith('"')) {
+        input = input.slice(1, -1);
+    }
+
+    return input.split('\\n').map(line => line.trim()).filter(line => line !== '');
+}
+
+function formatDiff(original, modified) {
+    const originalLines = cleanInput(original);
+    const modifiedLines = cleanInput(modified);
+    let formattedDiff = '';
+
+    for (let i = 0; i < Math.max(originalLines.length, modifiedLines.length); i++) {
+        const originalLine = originalLines[i] || '';
+        const modifiedLine = modifiedLines[i] || '';
+
+        if (originalLine === modifiedLine) {
+            // Same lines
+            formattedDiff += `<div class="line same">${originalLine}</div>\n`;
+        } else if (!originalLine) {
+            // New line added
+            formattedDiff += `<div class="line added">+ ${modifiedLine}</div>\n`;
+        } else if (!modifiedLine) {
+            // Line removed
+            formattedDiff += `<div class="line removed">- ${originalLine}</div>\n`;
+        } else {
+            // Line modified
+            formattedDiff += `<div class="line removed">- ${originalLine}</div>\n`;
+            formattedDiff += `<div class="line added">+ ${modifiedLine}</div>\n`;
+        }
+    }
+
+    $('.diff-viewer').append(formattedDiff);
+}
+
+function checkScores() {
+    if (session_data.clarity_score >= 4 && session_data.accuracy_score >= 4 && session_data.depth_score >= 4) {
+        $('#complete-btn').prop('disabled', false);
+    } else {
+        $('#complete-btn').prop('disabled', true);
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
 function pageSetup() {
     console.log(session_data);
 
@@ -79,15 +137,15 @@ function pageSetup() {
         return line.trimStart();
     }).join('\n');
     codeEditor.val(cleanedCode);
+    adjustFeedbackHeight();
+    checkScores();
 }
+
+$(window).resize(adjustFeedbackHeight);
 
 $(document).ready(function() {
 
     pageSetup();
-
-    createGauge("gauge-clarity", "Clarity", session_data.clarity_score);
-    createGauge("gauge-accuracy", "Accuracy", session_data.accuracy_score);
-    createGauge("gauge-depth", "Depth", session_data.depth_score);
 
     const csvTable = csvToTable(session_data.dataset);
     $('#dataset-content').empty();
@@ -97,16 +155,30 @@ $(document).ready(function() {
         resubmit();
     });
 
+    $('#complete-btn').on('click', function() {
+        complete();
+    });
+
     $('#gauge-clarity').hover(
         function() {
-            let feedbackContent = `${session_data.clarity}<br><br>`;
+            let feedbackContent = ``;
             if (session_data.clarity_score != 5) {
-                feedbackContent += `
-                    ${session_data.clarity_quote}<br><br>
-                    ${session_data.clarity_diff}
-                `;
+                try {
+                    test
+                    feedbackContent = `<p class="suggestions">${session_data.clarity}</p><div class="diff-viewer"></div>`;
+                    $('#feedback-content').html(feedbackContent);
+                    formatDiff(session_data.clarity_quote.trim(), session_data.clarity_diff.trim());
+                } catch {
+                    feedbackContent = `${session_data.clarity}<br><br>`;
+                    feedbackContent += `
+                        ${session_data.clarity_quote}<br><br>
+                        ${session_data.clarity_diff}
+                    `;
+                    $('#feedback-content').html(feedbackContent);
+                }
+            } else {
+                $('#feedback-content').html(session_data.clarity);
             }
-            $('#feedback-content').html(feedbackContent);
             $('#clarity-col').css('background-color', '#f0f0f0');
             $('#accuracy-col').css('background-color', 'transparent');
             $('#depth-col').css('background-color', 'transparent');
@@ -115,14 +187,24 @@ $(document).ready(function() {
 
     $('#gauge-accuracy').hover(
         function() {
-            let feedbackContent = `${session_data.accuracy}<br><br>`;
+            let feedbackContent = ``;
             if (session_data.accuracy_score != 5) {
-                feedbackContent += `
-                    ${session_data.accuracy_quote}<br><br>
-                    ${session_data.accuracy_diff}
-                `;
+                try {
+                    test
+                    feedbackContent = `<p class="suggestions">${session_data.accuracy}</p><div class="diff-viewer"></div>`;
+                    $('#feedback-content').html(feedbackContent);
+                    formatDiff(session_data.accuracy_quote.trim(), session_data.accuracy_diff.trim());
+                } catch {
+                    feedbackContent = `${session_data.accuracy}<br><br>`;
+                    feedbackContent += `
+                        ${session_data.accuracy_quote}<br><br>
+                        ${session_data.accuracy_diff}
+                    `;
+                    $('#feedback-content').html(feedbackContent);
+                }
+            } else {
+                $('#feedback-content').html(session_data.accuracy);
             }
-            $('#feedback-content').html(feedbackContent);
             $('#clarity-col').css('background-color', 'transparent');
             $('#accuracy-col').css('background-color', '#f0f0f0');
             $('#depth-col').css('background-color', 'transparent');
@@ -131,14 +213,24 @@ $(document).ready(function() {
 
     $('#gauge-depth').hover(
         function() {
-            let feedbackContent = `${session_data.depth}<br><br>`;
+            let feedbackContent = ``;
             if (session_data.depth_score != 5) {
-                feedbackContent += `
-                    ${session_data.depth_quote}<br><br>
-                    ${session_data.depth_diff}
-                `;
+                try {
+                    test
+                    feedbackContent = `<p class="suggestions">${session_data.depth}</p><div class="diff-viewer"></div>`;
+                    $('#feedback-content').html(feedbackContent);
+                    formatDiff(session_data.depth_quote.trim(), session_data.depth_diff.trim());
+                } catch {
+                    feedbackContent = `${session_data.depth}<br><br>`;
+                    feedbackContent += `
+                        ${session_data.depth_quote}<br><br>
+                        ${session_data.depth_diff}
+                    `;
+                    $('#feedback-content').html(feedbackContent);
+                }
+            } else {
+                $('#feedback-content').html(session_data.depth);
             }
-            $('#feedback-content').html(feedbackContent);
             $('#clarity-col').css('background-color', 'transparent');
             $('#accuracy-col').css('background-color', 'transparent');
             $('#depth-col').css('background-color', '#f0f0f0');

@@ -14,12 +14,12 @@
     <div class="row">
     
         <div class="col-4 feedback-container">
-            <div class="row dataset-content" id="dataset-content">
+            <!-- <div class="row dataset-content" id="dataset-content">
 
             </div>
             <div class="row question-content">
                 {{ session_data.question }}
-            </div>
+            </div> -->
         </div>
 
         <div class="col-3 feedback-container">
@@ -31,7 +31,7 @@
         </div>
 
         <div class="col-5 feedback-container">
-            <div class="row score-content">
+            <div class="row score-content" id="score-content">
                 <div class="col-4 score-col">
                     <div class="gauge-wrapper" id="clarity-col">
                         <div class="gauge" id="gauge-clarity"></div>
@@ -49,14 +49,15 @@
                 </div>
             </div>
             <div class="row feedback-content" id="feedback-content">
-                Hover over one of your scores too see feedback on how you could improve it!
+                Hover over one of your scores too see feedback on how you could improve it!<br><br>
+                In your program, assume ./data.csv contains the data. You may import matplotlib, seaborn, and/or pandas. Hit 'CTRL + ENTER' while the editor is selected to try executing your code before submission.
             </div>
             <div class="row buttons-content">
                 <div class="col-6 but-col">
                     <button id="resubmit-btn">RE-SUBMIT</button>
                 </div>
                 <div class="col-6 but-col">
-                    <button id="complete-btn">COMPLETE</button>
+                    <button id="complete-btn" disabled title="You need at least a score of 4 in all fields to pass.">COMPLETE</button>
                 </div>
             </div>
         </div>
