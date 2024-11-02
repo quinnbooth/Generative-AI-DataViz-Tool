@@ -127,6 +127,10 @@ function checkScores() {
     }
 }
 
+function complete() {
+    window.location.href = `/`;
+}
+
 /////////////////////////////////////////////////////////////////////////////////
 
 function pageSetup() {
@@ -144,6 +148,8 @@ function pageSetup() {
 $(window).resize(adjustFeedbackHeight);
 
 $(document).ready(function() {
+
+    session_data.clarity_score = 4;
 
     pageSetup();
 
