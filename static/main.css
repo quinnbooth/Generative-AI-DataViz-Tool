@@ -259,6 +259,7 @@ body {
     border: 1px solid #b4b4b4;
     padding: 8px;
     text-align: left;
+    white-space: nowrap;
 }
 
 .csv-table th {
@@ -266,6 +267,7 @@ body {
     color: #333;
     position: sticky;
     top: 0;
+    text-align: left;
 }
 
 .csv-table tr:hover {
@@ -335,6 +337,7 @@ body {
 }
 
 .submit-button {
+    width: 125px;
     margin-top: 20px;
     background-color: #4CAF50; /* Green background */
     color: white; /* White text */
@@ -494,6 +497,10 @@ body {
     height: 60vh;
     margin-bottom: 10px;
     border: 1px solid rgb(164, 164, 164);
+    border-radius: 8px; /* Rounded corners */
+    background-color: #f7f7f7; /* Light background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    overflow: hidden;
 }
 
 #dataset-content {
@@ -502,15 +509,27 @@ body {
     margin-left: 15px;
     margin-right: 10px;
     z-index: 100;
+    border-radius: 5px; /* Matches the container */
 }
+
 
 .question-content {
     height: calc(40vh - 100px);
     margin-left: 15px;
     margin-right: 10px;
-    background-color: rgb(235, 235, 235);
-    border-radius: 5px;
-    padding: 15px;
+    background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #cdd7e0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    line-height: 2.0em;
+    /* letter-spacing: 1px; */
+}
+
+.question-content:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .score-content {
@@ -529,11 +548,21 @@ body {
     margin-top: 15px;
     margin-left: 5px;
     margin-right: 15px;
-    display: flex;
-    flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
+    padding: 15px; /* Adjusted for a balanced look */
     border-bottom: 2px solid rgb(186, 186, 186);
+    background: linear-gradient(-135deg, #f7f9fc, #e2e8f0); /* Subtle gradient */
+    border-radius: 8px; /* Slightly rounded corners */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* line-height: 1.5em; */
+    /* letter-spacing: 1px; */
+}
+
+.feedback-content:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
 }
 
 .buttons-content {
@@ -560,12 +589,18 @@ body {
 }
 
 .gauge-wrapper {
-    /* width: min(100%, 100vh);
-    height: min(100%, 100vw);  */
-    padding-bottom: 100%;
-    border-radius: 50%; 
+    padding-bottom: 100%; /* Maintain the circle aspect ratio */
+    border-radius: 50%; /* Rounded shape */
     overflow: hidden;
     position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    border: 2px solid rgba(0, 0, 0, 0.05); /* Light border for subtle definition */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.gauge-wrapper:hover {
+    transform: scale(1.02); /* Gentle scale-up on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
 }
 
 .diff-viewer {
@@ -573,11 +608,10 @@ body {
     flex-direction: column;
     font-family: monospace;
     white-space: pre;
-    /* border: 1px solid #ddd; */
     padding: 10px;
-    background-color: #f9f9f9;
     overflow: auto;
     width: 100%;
+    height: auto;
 }
 
 .line {
@@ -613,14 +647,91 @@ body {
 }
 
 #resubmit-btn {
-    
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    padding: 10px 20px; /* Padding for better size */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Increase font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+    white-space: nowrap;
+}
+
+#resubmit-btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+    transform: translateY(-2px); /* Subtle lift effect */
+}
+
+#resubmit-btn:active {
+    background-color: #3e8e41; /* Even darker green when clicked */
+    transform: translateY(0); /* Return to original position */
+}
+
+#complete-btn {
+    background-color: #2196F3; /* Blue background */
+    color: white; /* White text */
+    padding: 10px 20px; /* Padding for consistent size */
+    border: none; /* No default border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Larger text */
+    cursor: pointer; /* Pointer on hover */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+    white-space: nowrap;
+}
+
+#complete-btn:hover {
+    background-color: #0b7dda; /* Darker blue on hover */
+    transform: translateY(-2px); /* Lift effect */
+}
+
+#complete-btn:active {
+    background-color: #0a6ab9; /* Darkest blue when clicked */
+    transform: translateY(0); /* Return to original position */
 }
 
 #complete-btn:disabled {
-    cursor: not-allowed;
-    background-color: #ccc;
+    cursor: not-allowed; /* Disabled cursor */
+    background-color: #ccc; /* Gray background */
+    color: #777; /* Lighter text color */
 }
 
 #complete-btn:disabled:hover {
-    cursor: not-allowed;
+    background-color: #ccc; /* Same gray background on hover */
+    cursor: not-allowed; /* Same not-allowed cursor */
+}
+
+.hover-txt {
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.score-txt {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.instructions-txt {
+    padding-left: 15px;
+    padding-right: 15px;
+    color: rgb(145, 145, 145);
+    
+}
+
+#executeModal {
+    position: absolute;
+}
+
+.question-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.highlight {
+    background-color: yellow !important; /* Change this to your desired highlight color */
+    font-weight: bold;
+    padding: 2px;
+    border-radius: 3px;
 }

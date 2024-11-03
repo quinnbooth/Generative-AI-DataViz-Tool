@@ -82,7 +82,7 @@ resubmit_prompt6 = '''\n\nReassess their scores for clarity, accuracy and depth.
 1) Clarity: Does the visualization effectively communicate the data's message? Is it easy to understand, with appropriate labels, axes, and legends? Does the visualization look visually appealing? Are the color choices, spacing, and overall layout well-designed without sacrificing clarity?
 2) Accuracy: Is the data represented accurately? Does the visualization avoid misleading elements, such as distorted scales or selective data omission?
 3) Depth: Does the visualization answer the proposed problem? Is the chosen type of visualization (bar chart, line graph, scatter plot, etc.) appropriate for the data and the message it intends to convey?'''
-resubmit_prompt7 = '''\n\nYou must provide your feedback in a very specific format. If you do not give a perfect score in any of the given three fields, you have to include an explicit change in their code which would improve their score in this area. These suggestions must not conflict with one another if there are more than one. Use the following format and say nothing except for what is in this format. Replace the lines given with relevant text, using exactly 9 lines:
+resubmit_prompt7 = '''\n\nYou must provide your feedback in a very specific format. If you do not give a perfect score in any of the given three fields, you have to include an explicit change in their code which would improve their score in this area. This means if they don't get a 5 in an area, you must give code snippets for improving in that area. These suggestions must not conflict with one another if there are more than one. Use the following format and say nothing except for what is in this format. Replace the lines given with relevant text, using exactly 9 lines:
 1) Clarity: #/5 - suggestion for clarity if applicable, related to code below (but should make sense without needing to see the code), or explanation of why they got a 5. Make the suggestion/explanation detailed.
 2) Accuracy: #/5 - suggestion for accuracy if applicable, related to code below (but should make sense without needing to see the code), or explanation of why they got a 5. Make the suggestion/explanation detailed.
 3) Depth: #/5 - suggestion for depth if applicable, related to code below (but should make sense without needing to see the code), or explanation of why they got a 5. Make suggestion/explanation detailed.
@@ -133,7 +133,10 @@ def resubmit_answer():
     depth_score = int(re.search(r'(\d+)', lines[2]).group(0))
     depth = lines[2].split('- ', 1)[1].strip()
 
+    id = session_data['id']
+
     session_data = {
+        'id': id,
         'msg': msg,
         'dataset': dataset,
         'question': question,
@@ -303,7 +306,8 @@ def submit_answer():
         'depth_score': depth_score,
         'question': question,
         'dataset': dataset,
-        'code': answer
+        'code': answer,
+        'id': id
     }
 
     return jsonify(session_data)
