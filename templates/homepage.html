@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <script src="/static/js/homepage.js" defer></script>
+
+    <div class="row">
+        <div class="graph-container">
+            <canvas id="graphCanvas"></canvas>
+            <!-- Overlay -->
+            <div class="overlay">
+                <div class="row">
+                    <div class="catchphrase-container">
+                        <div class="catchphrase-text">
+                          <span class="data-viz">Data Viz,</span><br>
+                          <span class="unlocked">Unlocked</span>
+                        </div>
+                      </div>
+                </div>
+                <div class="row" style="margin-top:60px;">
+                    <div class="col-6" style="display: flex; align-items: center; justify-content: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 2048 2048" width="80%" height="auto" style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;fill-rule:evenodd;clip-rule:evenodd"><defs><clipPath id="id0"><path d="M1024 0c565.539 0 1024 458.461 1024 1024s-458.461 1024-1024 1024S0 1589.539 0 1024 458.461 0 1024 0z"/></clipPath><style>.fil1{fill:#6d4c41}</style></defs><g id="Layer_x0020_1"><path d="M1024 0c565.539 0 1024 458.461 1024 1024s-458.461 1024-1024 1024S0 1589.539 0 1024 458.461 0 1024 0z" style="fill:#8d6e63"/><g style="clip-path:url(#id0)"><g id="_432897544"><path id="_4345423441" class="fil1" d="M1541.98 636.435 2677.86 1772.32l.08 808.61-1135.88-1135.88z"/><path id="_434542512" class="fil1" d="M547.889 463.999 1683.77 1599.88v1036.11L547.889 1500.11z"/><path id="_434544264" class="fil1" d="m1542.06 1445.05 1135.88 1135.88h-941.92L600.137 1445.05z"/><path id="_434544096" class="fil1" d="m1584 1584 1135.88 1135.88h-1120L463.999 1584z"/><path id="_434544384" class="fil1" d="m1584 1500.11 1135.88 1135.88v83.89L1584 1584z"/><path id="_432897328" class="fil1" d="m1541.98 636.435.078 808.613H600.139v-331.755l358.1 113.408 218.309-363.849 148.373 123.645 217.06-350.061zm-994.09 863.676H1584v83.89H464v-1120h83.89v1036.11z"/></g></g><path d="M1024 0c565.539 0 1024 458.461 1024 1024s-458.461 1024-1024 1024S0 1589.539 0 1024 458.461 0 1024 0z" style="fill:none"/><path style="fill:#80d8ff" d="M547.889 1500.11H1584V1584H464V464h83.889z"/><path style="fill:#81c784;fill-rule:nonzero" d="M600.136 1113.29v331.76h941.924l-.08-808.615-217.06 350.061-148.37-123.645L958.237 1226.7z"/></g></svg>
+                    </div>
+                    <div class="col-6 intro-col">
+                        <h2><i>Graphite</i>: Master Data Visualization</h2>
+                        <p>Graphite is your go-to practice tool for ingesting data into insightful graphics. Become a better data analyst and ace your technical interviews!</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="generate-text">
+                        Use <b><i>Generative AI</i></b><br> to create unique questions and datasets.
+                    </div>
+                </div>
+                <div class="row" style="display: flex;align-items: center;justify-content: center;">
+                    <button class="generate-button">
+                        GENERATE
+                        <i class="fas fa-sync-alt refresh-icon"></i>
+                    </button>
+                </div>
+                <div class="row">
+                    <div class="process-text">
+                        You will answer by coding data visualizations. These will be <b>scored</b> out of 5 <b>in 3 distinct categories</b>. Receive a minimum of 4 points in each category to pass!<br><br>
+                        <div class="category-text">Clarity</div>
+                        <div class="category-text">Accuracy</div>
+                        <div class="category-text">Depth</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+

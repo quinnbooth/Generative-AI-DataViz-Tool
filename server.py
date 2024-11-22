@@ -415,6 +415,10 @@ def generate_problem():
 
 @app.route('/')
 def home():
+    return render_template('homepage.html')  
+
+@app.route('/question')
+def question():
     return render_template('home.html')  
 
 if __name__ == '__main__':
