@@ -63,6 +63,7 @@ function resubmit() {
             session_data = response;
             adjustFeedbackHeight();
             checkScores();
+            updateResubmitButtonText(session_data.clarity_score);
             $('#feedback-content').html(`
                 <p class="hover-txt"><b>Hover</b> over your scores too see feedback on how you can improve them!</p>
                 <p class="score-txt">Score <b>at least 4</b> in each area to pass. You will receive <b>code hints</b> after your next submission.</p>
@@ -218,6 +219,14 @@ function resetHoverables() {
     });
 }
 
+function updateResubmitButtonText(clarityScore) {
+    if (clarityScore === 0) {
+        $('#resubmit-btn').text('SUBMIT');
+    } else {
+        $('#resubmit-btn').text('RESUBMIT');
+    }
+}
+
 /////////////////////////////////////////////////////////////////////////////////
 
 function pageSetup() {
@@ -230,6 +239,8 @@ function pageSetup() {
     codeEditor.val(cleanedCode);
     adjustFeedbackHeight();
     checkScores();
+
+    updateResubmitButtonText(session_data.clarity_score);
 }
 
 $(window).resize(adjustFeedbackHeight);
@@ -269,7 +280,7 @@ $(document).ready(function() {
             } else {
                 $('#feedback-content').html(session_data.clarity);
             }
-            $('#clarity-col').css('background-color', '#edeffc');
+            $('#clarity-col').css('background-color', '#efffea');
             $('#accuracy-col').css('background-color', 'transparent');
             $('#depth-col').css('background-color', 'transparent');
             resetHoverables();
@@ -296,7 +307,7 @@ $(document).ready(function() {
                 $('#feedback-content').html(session_data.accuracy);
             }
             $('#clarity-col').css('background-color', 'transparent');
-            $('#accuracy-col').css('background-color', '#edeffc');
+            $('#accuracy-col').css('background-color', '#efffea');
             $('#depth-col').css('background-color', 'transparent');
             resetHoverables();
         }
@@ -323,7 +334,7 @@ $(document).ready(function() {
             }
             $('#clarity-col').css('background-color', 'transparent');
             $('#accuracy-col').css('background-color', 'transparent');
-            $('#depth-col').css('background-color', '#edeffc');
+            $('#depth-col').css('background-color', '#efffea');
             resetHoverables();
         }
     );

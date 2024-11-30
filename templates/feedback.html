@@ -14,19 +14,19 @@
     <div class="row">
     
         <div class="col-4 feedback-container">
+            
+            <div class="row question-content">
+                <b>Question:</b>
+                {{ session_data.question }}
+            </div>
             <div class="row dataset-content" id="dataset-content">
 
-            </div>
-            <div class="row question-content">
-                {{ session_data.question }}
             </div>
         </div>
 
         <div class="col-3 feedback-container">
             <div class="row code-content" style="position: relative;">
-                <textarea class="code-editor" id="code-editor" placeholder="Code your Python solution here..." spellcheck="false" style="margin-left: 0px">
-                    {{ session_data.code }}
-                </textarea>
+                <textarea class="code-editor" id="code-editor" placeholder="Code your Python solution here..." spellcheck="false" style="margin-left: 0px">{% if session_data.code and session_data.code.strip() %}{{ session_data.code }}{% endif %}</textarea>
             </div>
         </div>
 
@@ -57,8 +57,8 @@
                 </div>
             </div>
             <div class="row feedback-content" id="feedback-content">
-                <p class="hover-txt"><b>Hover</b> over your scores too see feedback on how you can improve them!</p>
-                <p class="score-txt">Score <b>at least 4</b> in each area to pass. You will receive <b>code hints</b> after your next submission.</p>
+                <p class="score-txt"><b>Score at least 4/5</b> in each category above.<br><br>You will receive <b>feedback</b> after your first submission and <b>code hints</b> after your second.<br><br>Once received, <b>hover</b> over your scores too see feedback on how you can improve them!</p>
+                <p class="hover-txt"></p>
                 <p class="instructions-txt">In your program, assume ./data.csv contains the data. You may import matplotlib, seaborn, and/or pandas. Hit 'CTRL + ENTER' while the editor is selected to try executing your code before submission.</p>
             </div>
             <div class="row buttons-content">

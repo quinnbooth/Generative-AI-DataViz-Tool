@@ -186,6 +186,24 @@ function listProblems(entries) {
 
 }
 
+function selectProblem(id) {
+  console.log(id);
+  $.ajax({
+      type: "POST",
+      url: "/select_question",
+      data: JSON.stringify({ id: id }),
+      processData: false,
+      contentType: "application/json",
+      success: function(response) {
+          console.log(response);
+          window.location.href = `/feedback`;
+      },
+      error: function(request, status, error) {
+          console.log("Error getting problem: ", error);
+      }
+  });
+}
+
 function getProblems(select, id) {
   $.ajax({
       type: "POST",
@@ -195,13 +213,39 @@ function getProblems(select, id) {
       contentType: "application/json",
       success: function(response) {
           first_id = listProblems(response);
-          if (select == 1) selectProblem(first_id);
-          if (select != 1) selectProblem(id);
+          // if (select == 1) selectProblem(first_id);
+          // if (select != 1) selectProblem(id);
       },
       error: function(request, status, error) {
           console.log("Error getting problem list: ", error);
       }
   });
+}
+
+function getNewProblem(keywords) {
+  console.log(keywords);
+
+  $.ajax({
+      type: "POST",
+      url: "/generate_problem",
+      data: JSON.stringify({ keywords: keywords }),
+      processData: false,
+      contentType: "application/json",
+      beforeSend: function () { 
+        $("#spinner-div").show()
+      },
+      success: function(response) {
+          console.log(response);
+          selectProblem(response.entryno);
+      },
+      error: function(request, status, error) {
+          console.log("Error generating problem: ", error);
+      },
+      complete: function () { 
+        $("#spinner-div").hide();
+      }
+  });
+
 }
 
 function updateLikes(entry, inc) {
@@ -228,6 +272,7 @@ $(document).ready(function() {
   $('.generate-button').on('click', function() {
       $('#generateModal').modal('show');
   });
+  
 
   $('#submitButton').on('click', function() {
       const keywords = $('#dataField').val();

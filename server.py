@@ -100,6 +100,14 @@ def resubmit_answer():
     data = request.get_json()
     new_answer = data['code'].strip()
     old_answer = session_data['code']
+
+    if old_answer == "":
+        print("First response.")
+        data['id'] = session_data['id']
+        data['answer'] = new_answer
+        print(data)
+        return submit_answer(data)
+
     dataset = session_data['dataset']
     question = session_data['question']
     feedback = "1) Clarity: " + session_data['clarity'] + "\n2) Accuracy: " + session_data['accuracy'] + "\n3) Depth: " + session_data['depth']
@@ -239,10 +247,10 @@ def get_ideal_viz():
         
 
 @app.route('/submit_answer', methods=['GET', 'POST'])
-def submit_answer():
+def submit_answer(data):
     global session_data
     global gpt_feedback
-    data = request.get_json()
+    # data = request.get_json()
     id = data['id']
     answer = data['answer'].strip()
     question = ""
@@ -313,6 +321,29 @@ def submit_answer():
     return jsonify(session_data)
 
     # return jsonify({'msg': msg, 'clarity': clarity, 'accuracy': accuracy, 'insightfulness': insightfulness, 'question': question, 'dataset': dataset, 'code': answer})
+
+@app.route('/select_question', methods=['GET', 'POST'])
+def select_question():
+    global session_data
+    global gpt_feedback
+    data = request.get_json()
+    id = data['id']
+    with open('static/data/questions.json') as f:
+        entries = json.load(f)
+    for entry in entries:
+        if entry['id'] == int(id):
+            question = entry['question']
+            dataset = entry['dataset']
+    session_data = {
+        'question': question,
+        'dataset': dataset,
+        'clarity_score': 0,
+        'accuracy_score': 0,
+        'depth_score': 0,
+        'code': "",
+        'id': id
+    }
+    return jsonify(session_data)
 
 @app.route('/feedback')
 def feedback():
@@ -389,6 +420,7 @@ def generate_problem():
     # Send request to GPT
     response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
     response_json = response.json()
+    # print(response_json)
 
     # Extract the content field from the response
     content = response_json['choices'][0]['message']['content']

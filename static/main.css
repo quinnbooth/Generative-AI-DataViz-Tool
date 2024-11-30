@@ -520,13 +520,14 @@ body {
     height: calc(40vh - 100px);
     margin-left: 15px;
     margin-right: 10px;
-    background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+    background: linear-gradient(135deg, #e9ffe3, #e9ffe3);
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid #cdd7e0;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    line-height: 2.0em;
+    line-height: 1.6em;
+    margin-bottom: 20px;
     /* letter-spacing: 1px; */
 }
 
@@ -555,7 +556,7 @@ body {
     overflow-x: hidden;
     padding: 15px; /* Adjusted for a balanced look */
     border-bottom: 2px solid rgb(186, 186, 186);
-    background: linear-gradient(-135deg, #f7f9fc, #e2e8f0); /* Subtle gradient */
+    background: linear-gradient(-135deg, #f2fff3, #f1fff2); /* Subtle gradient */
     border-radius: 8px; /* Slightly rounded corners */
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -604,6 +605,7 @@ body {
 .gauge-wrapper:hover {
     transform: scale(1.02); /* Gentle scale-up on hover */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+    background-color: #e9ffe3;
 }
 
 .diff-viewer {
