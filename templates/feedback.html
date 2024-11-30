@@ -11,6 +11,20 @@
         var session_data = {{ session_data|tojson }};
     </script>
 
+    <div id="voteModal" class="voteModal">
+        <div class="vote-modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            Thanks for using Graphite!
+            <h2>Did you enjoy this problem?</h2>
+            Your opinion will affect this question's ranking.
+            <div class="vote-buttons">
+                <button id="upvote" class="vote-btn" onclick="vote('up')">Yes!</button>
+                <button id="downvote" class="vote-btn" onclick="vote('down')">No.</button>
+                <button id="downvote" class="vote-btn2" onclick="vote('none')">Neither.</button>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
     
         <div class="col-4 feedback-container">

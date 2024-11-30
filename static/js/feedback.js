@@ -152,8 +152,27 @@ function checkScores() {
     }
 }
 
-function complete() {
+function vote(voteType) {
+    // Handle the vote (upvote or downvote)
+    if (voteType === 'up') {
+        updateLikes(session_data['id'], 1);
+    } else if (voteType === 'down') {
+        updateLikes(session_data['id'], -1);
+    } 
+    
+    // Close the modal after voting
+    closeModal();
     window.location.href = `/`;
+}
+
+function complete() {
+    document.getElementById("voteModal").style.display = "block";
+    // window.location.href = `/`;
+}
+
+function closeModal() {
+    // Close the modal when the user clicks the close button
+    document.getElementById("voteModal").style.display = "none";
 }
 
 function executeCode() {
@@ -218,6 +237,22 @@ function resetHoverables() {
         }
     });
 }
+
+function updateLikes(entry, inc) {
+    $.ajax({
+        type: "POST",
+        url: "/update_likes",
+        data: JSON.stringify({ id: entry, increment: inc }),
+        processData: false,
+        contentType: "application/json",
+        success: function(response) {
+            window.location.href = `/`;
+        },
+        error: function(request, status, error) {
+            console.log("Error updating likes: ", error);
+        }
+    });
+  }
 
 function updateResubmitButtonText(clarityScore) {
     if (clarityScore === 0) {
