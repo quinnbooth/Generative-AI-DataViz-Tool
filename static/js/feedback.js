@@ -65,9 +65,7 @@ function resubmit() {
             checkScores();
             updateResubmitButtonText(session_data.clarity_score);
             $('#feedback-content').html(`
-                <p class="hover-txt"><b>Hover</b> over your scores too see feedback on how you can improve them!</p>
-                <p class="score-txt">Score <b>at least 4</b> in each area to pass. You will receive <b>code hints</b> after your next submission.</p>
-                <p class="instructions-txt">In your program, assume ./data.csv contains the data. You may import matplotlib, seaborn, and/or pandas. Hit 'CTRL + ENTER' while the editor is selected to try executing your code before submission.</p>
+                <b>Your feedback has arrived!</b><br><br><b>Hover</b> over a gauge to see it.
                 `)
         },
         error: function(request, status, error) {
@@ -86,7 +84,7 @@ function adjustFeedbackHeight() {
     createGauge("gauge-depth", "Depth", session_data.depth_score);
 
     let butColHeight = $('#score-content').outerHeight(true);
-    $('.feedback-content').css('height', `calc(100vh - ${70 + 100 + butColHeight}px)`);
+    // $('.feedback-content').css('height', `calc(100vh - ${70 + 100 + butColHeight}px)`);
     
 }
 

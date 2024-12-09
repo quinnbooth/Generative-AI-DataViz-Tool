@@ -304,7 +304,7 @@ body {
     width: 95%;
     height: auto;
     flex-grow: 1; 
-    background-color: #1e1e1e;
+    background-color: #252525;
     color: #788878;
     font-family: 'Courier New', Courier, monospace;
     font-size: 14px;
@@ -373,8 +373,8 @@ body {
     display: none;
     position: fixed;
     z-index: 1000;
-    left: 50%;
-    top: 50%;
+    left: 85%;
+    top: 120%;
     transform: translate(-50%, -50%);
     background-color: white;
     border: 2px solid #888;
@@ -474,7 +474,7 @@ body {
 
 #execText {
     text-align: left;
-    width: 400px;
+    width: 600px;
     height: 100px;
     margin-top: 10px;
     border: 1px solid gray;
@@ -483,22 +483,32 @@ body {
 }
 
 #imageContainer {
-    width: 400px;
+    width: 600px;
     height: 300px;
 }
 
 .feedback-container {
     margin-top: 15px;
     margin-bottom: 15px;
+    /* background-color: red; */
+    /* margin-right: 15px; */
+}
+
+.feedback-container2 {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    /* margin-left: 15px; */
 }
 
 .code-content {
-    height: calc(100vh - 90px);
+    margin-left: 15px;
+    height: calc(94vh - 100px);
 }
 
 .dataset-content {
-    height: 60vh;
-    margin-bottom: 10px;
+    height: 38.5vh;
+    /* margin-left: 25px; */
+    margin-bottom: 25px;
     border: 1px solid rgb(164, 164, 164);
     border-radius: 8px; /* Rounded corners */
     background-color: #f7f7f7; /* Light background */
@@ -509,17 +519,19 @@ body {
 #dataset-content {
     overflow-x: auto;
     overflow-y: auto;
-    margin-left: 15px;
-    margin-right: 10px;
+    margin-bottom: 25px;
+    margin-left: 18px;
+    margin-right: 18px;
     z-index: 100;
     border-radius: 5px; /* Matches the container */
 }
 
 
 .question-content {
-    height: calc(40vh - 100px);
+    height: calc(35vh - 100px);
     margin-left: 15px;
     margin-right: 10px;
+    margin-top: 10px;
     background: linear-gradient(135deg, #e9ffe3, #e9ffe3);
     border-radius: 10px;
     padding: 20px;
@@ -538,6 +550,7 @@ body {
 
 .score-content {
     /* height: 150px; */
+    height: calc(30vh - 110px);
     margin-left: 0px;
     margin-right: 15px;
     /* background-color: pink; */
@@ -548,18 +561,26 @@ body {
     /* border: 1px solid black; */
 }
 
+.feedback-row {
+    height: 200px;
+}
+
 .feedback-content {
+    /* height: 20vh; */
+    height: 38.75vh;
     margin-top: 15px;
-    margin-left: 5px;
+    /* height: 200px; */
+    margin-left: -15px;
     margin-right: 15px;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 15px; /* Adjusted for a balanced look */
     border-bottom: 2px solid rgb(186, 186, 186);
-    background: linear-gradient(-135deg, #f2fff3, #f1fff2); /* Subtle gradient */
+    /* background: linear-gradient(-135deg, #f2fff3, #f1fff2);  */
     border-radius: 8px; /* Slightly rounded corners */
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: linear-gradient(135deg, #e9ffe3, #e9ffe3);
     /* line-height: 1.5em; */
     /* letter-spacing: 1px; */
 }
@@ -652,6 +673,7 @@ body {
 }
 
 #resubmit-btn {
+    margin-left: 85px;
     background-color: #4CAF50; /* Green background */
     color: white; /* White text */
     padding: 10px 20px; /* Padding for better size */
@@ -674,6 +696,7 @@ body {
 }
 
 #complete-btn {
+    margin-left: 15px;
     background-color: #2196F3; /* Blue background */
     color: white; /* White text */
     padding: 10px 20px; /* Padding for consistent size */
@@ -916,6 +939,10 @@ canvas {
   }
   
   .scoring-row:hover {
+    transform: translateY(-5px);
+  }
+
+  .scoring-row2:hover {
     transform: translateY(-5px);
   }
   

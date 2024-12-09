@@ -11,81 +11,107 @@
         var session_data = {{ session_data|tojson }};
     </script>
 
-    <div id="voteModal" class="voteModal">
-        <div class="vote-modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            Thanks for using Graphite!
-            <h2>Did you enjoy this problem?</h2>
-            Your opinion will affect this question's ranking.
-            <div class="vote-buttons">
-                <button id="upvote" class="vote-btn" onclick="vote('up')">Yes!</button>
-                <button id="downvote" class="vote-btn" onclick="vote('down')">No.</button>
-                <button id="downvote" class="vote-btn2" onclick="vote('none')">Neither.</button>
-            </div>
-        </div>
-    </div>
-
     <div class="row">
-    
-        <div class="col-4 feedback-container">
-            
-            <div class="row question-content">
-                <b>Question:</b>
-                {{ session_data.question }}
-            </div>
-            <div class="row dataset-content" id="dataset-content">
 
-            </div>
-        </div>
 
-        <div class="col-3 feedback-container">
+        <div class="col-4 feedback-container2">
             <div class="row code-content" style="position: relative;">
-                <textarea class="code-editor" id="code-editor" placeholder="Code your Python solution here..." spellcheck="false" style="margin-left: 0px">{% if session_data.code and session_data.code.strip() %}{{ session_data.code }}{% endif %}</textarea>
-            </div>
-        </div>
+                <textarea class="code-editor" id="code-editor" 
+                placeholder="Code your Python solution here...
 
-        <div class="col-5 feedback-container">
-            <div class="row score-content" id="score-content">
-                <div class="col-4 score-col">
-                    <div class="gauge-wrapper" id="clarity-col">
-                        <div class="gauge" id="gauge-clarity"></div>
-                    </div>
-                </div>
-                <div id="executeModal" class="modal-exec" style="display:none;">
-                    <div class="modal-exec-content">
-                        <img id="imageContainer" src="" alt="Your plot." />
-                        Console:
-                        <div id="execText"></div>
-                        <button id="closeModal">Close</button>
-                    </div>
-                </div>
-                <div class="col-4 score-col"> 
-                    <div class="gauge-wrapper" id="accuracy-col">
-                        <div class="gauge" id="gauge-accuracy"></div>
-                    </div>
-                </div>
-                <div class="col-4 score-col">
-                    <div class="gauge-wrapper" id="depth-col">
-                        <div class="gauge" id="gauge-depth"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row feedback-content" id="feedback-content">
-                <p class="score-txt"><b>Score at least 4/5</b> in each category above.<br><br>You will receive <b>feedback</b> after your first submission and <b>code hints</b> after your second.<br><br>Once received, <b>hover</b> over your scores too see feedback on how you can improve them!</p>
-                <p class="hover-txt"></p>
-                <p class="instructions-txt">In your program, assume ./data.csv contains the data. You may import matplotlib, seaborn, and/or pandas. Hit 'CTRL + ENTER' while the editor is selected to try executing your code before submission.</p>
+
+
+
+
+
+
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+
+Assume ./data.csv contains the data. You may import matplotlib, seaborn, and/or pandas. Hit 'CTRL + ENTER' while the editor is selected to try executing your code." spellcheck="false" style="margin-left: 0px">{% if session_data.code and session_data.code.strip() %}{{ session_data.code }}{% endif %}</textarea>
             </div>
             <div class="row buttons-content">
-                <div class="col-2"></div>
-                <div class="col-4 but-col">
+                <div class="col-6 but-col">
                     <button id="resubmit-btn">RESUBMIT</button>
-                </div>
-                <div class="col-4 but-col">
                     <button id="complete-btn" disabled title="You need at least a score of 4 in all fields to pass.">COMPLETE</button>
                 </div>
-                <div class="col-2"></div>
             </div>
         </div>
+        
+    
+        <div class="col-8 feedback-container">
+            <div class="row">
+                <div class="col-7">
+                    <div class="row score-content" id="score-content">
+                        <div class="col-4 score-col">
+                            <div class="gauge-wrapper" id="clarity-col">
+                                <div class="gauge" id="gauge-clarity"></div>
+                            </div>
+                        </div>
+                        <div id="executeModal" class="modal-exec" style="display:none;">
+                            <div class="modal-exec-content">
+                                <img id="imageContainer" src="" alt="Your plot." />
+                                Console:
+                                <div id="execText"></div>
+                                <button id="closeModal">Close</button>
+                            </div>
+                        </div>
+                        <div class="col-4 score-col"> 
+                            <div class="gauge-wrapper" id="accuracy-col">
+                                <div class="gauge" id="gauge-accuracy"></div>
+                            </div>
+                        </div>
+                        <div class="col-4 score-col">
+                            <div class="gauge-wrapper" id="depth-col">
+                                <div class="gauge" id="gauge-depth"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row question-content">
+                        <b>Question:</b>
+                        {{ session_data.question }}
+                    </div>
+                </div>
+                <div class="col-5 feedback-row">
+                    <div class="feedback-content" id="feedback-content">
+                        <p class="score-txt">
+                            <b>Score at least 4/5</b> in each category to pass: clarity, accuracy, and depth.<br><br><b>Hover</b> over their respective gauges to read targeted feedback on your submission. You will receive verbal feedback on your first attempt and code hints on your second.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row dataset-content" id="dataset-content"></div>
+        </div>
+
+        <div id="voteModal" class="voteModal">
+            <div class="vote-modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                Thanks for using Graphite!
+                <h2>Did you enjoy this problem?</h2>
+                Your opinion will affect this question's ranking.
+                <div class="vote-buttons">
+                    <button id="upvote" class="vote-btn" onclick="vote('up')">Yes!</button>
+                    <button id="downvote" class="vote-btn" onclick="vote('down')">No.</button>
+                    <button id="downvote" class="vote-btn2" onclick="vote('none')">Neither.</button>
+                </div>
+            </div>
+        </div>
+
+        
     </div>  
 
 {% endblock %}
