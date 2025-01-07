@@ -25,9 +25,16 @@ External link to video: https://youtu.be/IcF6PSylAgA
 
 1) Clone this repo and cd into the main folder.
 
-2) Run ```python server.py``` to start the Flask project up.
+2) Create a new file named `openai_secrets.py` and include your OpenAI API key.
 
-3) Follow the link logged in your console to visit the website on localhost.
+```python
+global SECRET_KEY
+SECRET_KEY = <your_key>
+```
+
+3) Run ```python server.py``` to start the Flask project up.
+
+4) Follow the link logged in your console to visit the website on localhost.
 
 # Pictures
 
